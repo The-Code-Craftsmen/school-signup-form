@@ -32,9 +32,9 @@ function populateOptions() {
     if (packageSelect.options.length === 0) {
         // Populate the options here
         const options = [
-            { value: "basic", text: "Basic" },
-            { value: "business", text: "Business" },
-            { value: "premium", text: "Premium" },
+            { value: "Basic", text: "Basic" },
+            { value: "Business", text: "Business" },
+            { value: "Premium", text: "Premium" },
         ];
 
         options.forEach((option) => {
