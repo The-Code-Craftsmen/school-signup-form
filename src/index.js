@@ -1,5 +1,8 @@
 const packageSelect = document.getElementById("package");
 const numStudentsInput = document.getElementById("numStudents");
+const registrationForm = document.getElementById("registrationForm");
+
+let bill = null;
 
 function calculateBill() {
     const selectedPackage = packageSelect.value;
@@ -20,6 +23,7 @@ function calculateBill() {
     }
 
     const totalBill = numStudents * planCost;
+    bill = totalBill;
     billCaption.textContent = `Total Bill: $${totalBill}`;
 }
 
@@ -53,6 +57,29 @@ function handleNumStudentsInput() {
 packageSelect.addEventListener("click", populateOptions);
 packageSelect.addEventListener("change", calculateBill);
 numStudentsInput.addEventListener("input", handleNumStudentsInput);
+registrationForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const schoolName = document.getElementById("schoolName").value;
+    const numStudents = document.getElementById("numStudents").value;
+    const schoolEmail = document.getElementById("schoolEmail").value;
+    const schoolPhone = document.getElementById("schoolPhone").value;
+    const package = document.getElementById("package").value;
+    console.log(JSON.stringify({ schoolName, numStudents, schoolEmail, schoolPhone, package, bill }))
+    fetch("http://localhost:3000/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ schoolName, numStudents, schoolEmail, schoolPhone, package, bill }),
+        })
+        .then((response) => {
+            alert("Form Submitted Successfully")
+          })
+        .catch((error) => {
+            // Handle any errors that occur during the request
+            console.error("Error submitting the form:", error);
+        });
+});
 
 window.addEventListener("beforeunload", function() {
     const form = document.getElementById("registrationForm");
